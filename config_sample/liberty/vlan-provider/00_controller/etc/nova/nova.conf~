@@ -1,0 +1,74 @@
+[DEFAULT]
+my_ip = 192.168.26.42
+auth_strategy = keystone
+cpu_allocation_ratio = 16
+ram_allocation_ratio = 1.5
+network_api_class = nova.network.neutronv2.api.API
+linuxnet_interface_driver = nova.network.linux_net.LinuxOVSInterfaceDriver
+security_group_api = neutron
+firewall_driver = nova.virt.firewall.NoopFirewallDriver
+debug = False
+verbose = True
+rpc_backend = rabbit
+vncserver_listen = 192.168.26.42
+vncserver_proxyclient_address = 192.168.26.42
+[api_database]
+[barbican]
+[cells]
+[cinder]
+[conductor]
+[cors]
+[cors.subdomain]
+[database]
+connection = mysql://nova:M0nalisa@192.168.26.42/nova
+[ephemeral_storage_encryption]
+[glance]
+host = 192.168.26.42
+[guestfs]
+[hyperv]
+[image_file_url]
+[ironic]
+[keymgr]
+[libvirt]
+[matchmaker_redis]
+[matchmaker_ring]
+[metrics]
+[neutron]
+service_metadata_proxy = True
+metadata_proxy_shared_secret = 123456
+url = http://192.168.26.42:9696
+admin_username = neutron
+admin_password = M0nalisa
+admin_tenant_name = service
+admin_auth_url = http://192.168.26.42:35357/v2.0
+auth_strategy = keystone
+[osapi_v21]
+[oslo_concurrency]
+lock_path = /var/lib/nova/tmp
+[oslo_messaging_amqp]
+[oslo_messaging_qpid]
+[oslo_messaging_rabbit]
+rabbit_host = 192.168.26.42
+rabbit_userid = openstack
+rabbit_password = M0nalisa
+[oslo_middleware]
+[rdp]
+[serial_console]
+[spice]
+[ssl]
+[trusted_computing]
+[upgrade_levels]
+[vmware]
+[vnc]
+[workarounds]
+[xenserver]
+[zookeeper]
+[keystone_authtoken]
+auth_uri = http://192.168.26.42:5000
+auth_url = http://192.168.26.42:35357
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = nova
+password = M0nalisa

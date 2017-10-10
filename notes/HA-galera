@@ -1,0 +1,47 @@
+install clustercheck
+wget https://raw.githubusercontent.com/olafz/percona-clustercheck/master/clustercheck
+chmod +x clustercheck
+cp clustercheck /usr/bin/
+
+yum install xinetd
+
+mysql -u root -p
+
+mysql> GRANT PROCESS ON *.* TO 'clustercheckuser'@'localhost' IDENTIFIED BY 'clustercheckpassword!';
+mysql> GRANT PROCESS ON *.* TO 'clustercheckuser'@'%' IDENTIFIED BY 'clustercheckpassword!';
+exit;
+
+create /etc/sysconfig/clustercheck
+MYSQL_USERNAME="clustercheckuser"
+MYSQL_PASSWORD="clustercheckpassword!"
+MYSQL_HOST="localhost"
+MYSQL_PORT="3306"
+
+
+
+create file /etc/xinetd.d/mysqlcheck
+
+# default: on
+# description: mysqlchk
+service mysqlchk
+{
+   disable = no
+   flags = REUSE
+   socket_type = stream
+   port = 9200
+   wait = no
+   user = nobody
+   server = /usr/bin/clustercheck
+   log_on_failure += USERID
+   only_from = 0.0.0.0/0
+   per_source = UNLIMITED
+}
+
+
+edit /etc/services
+
+mysqlchk      9200/tcp    # MySQL check <~ add this line
+
+
+firewall-cmd --zone=public --permanent --add-port=9200/tcp --add-port=9098/tcp --add-port=9418/tcp
+firewall-cmd --reload

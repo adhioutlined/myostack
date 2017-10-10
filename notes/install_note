@@ -1,0 +1,113 @@
+################################################
+disable Firewalld
+################################################
+iptables-save > ~/firewall.rules
+systemctl stop firewalld.service
+systemctl disable firewalld.service
+
+
+################################################
+disable NetworkManager
+################################################
+systemctl stop NetworkManager.service
+systemctl disable NetworkManager.service
+systemctl enable network.service
+systemctl start network.service
+systemctl start ipaliases.service
+
+################################################
+centos 7 Fix NIC name
+################################################
+edit /etc/default/grub
+add net.ifnames=0 to GRUB_CMDLINE_LINUX
+grub2-mkconfig -o /boot/grub2/grub.cfg
+
+################################################
+Allow port centos iptables
+################################################
+firewalld
+################################################
+firewall-cmd --zone=public --add-port=80/tcp --permanent
+firewall-cmd --reload
+firewall-cmd --list-all
+################################################
+iptables
+################################################
+iptables -I INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+service iptables save
+
+
+################################################
+User management
+################################################
+add new user
+
+adduser username
+usermod -aG sudo username
+
+
+openstack --os-auth-url http://ct-oc-srg.adhi:35357/v3 \
+  --os-project-domain-name Default --os-user-domain-name Default \
+  --os-project-name admin --os-username admin token issue
+
+  openstack --os-auth-url http://ct-oc-srg.adhi:5000/v3 \
+  --os-project-domain-name Default --os-user-domain-name Default \
+  --os-project-name demo --os-username demo token issue
+
+
+AMI images
+
+  # LOCAL_SR=$(xe sr-list name-label="Local storage" --minimal)
+# LOCALPATH="/var/run/sr-mount/$LOCAL_SR/os-guest-kernels"
+# mkdir -p "$LOCALPATH"
+# ln -s "$LOCALPATH" /boot/guest
+
+
+Modify dom0 for resize/migration support¶
+
+# LOCAL_SR=$(xe sr-list name-label="Local storage" --minimal)
+# IMG_DIR="/var/run/sr-mount/$LOCAL_SR/images"
+# mkdir -p "$IMG_DIR"
+# ln -s "$IMG_DIR" /images
+
+
+
+dd if=/dev/zero of=/virtualfs bs=1024 count=102400
+
+
+
+| egrep -v "(^#.*|^$)"
+
+
+
+ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
+
+
+Updating existing pool: <Pool id:'794ccc2c-d751-44fe-b57f-8894c9f5c842' name:'default'>
+
+
+sudo semanage port -a -t ssh_port_t -p tcp 2244
+
+sudo yum -y install policycoreutils-python
+
+
+
+crontab for memcached
+
+create file /usr/local/bin/memcached
+#!/bin/sh
+
+echo Checking for memcached instance...
+result=$(pidof memcached)
+echo "$result"
+if [ -z "$result" ]; then
+  echo memcached is not running. Attempt to start it...
+  /usr/bin/memcached -u memcached -p 11211 -m 1024 -c 1024 -l localhost -d &
+else
+  echo memcached is already running. Do nothing.
+fi
+
+echo End of script.
+
+add to crontab  /etc/crontab
+* * * * * root /usr/local/bin/memcached

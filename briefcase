@@ -1,0 +1,70 @@
+#!/bin/bash
+
+## Networking section ##
+HOSTN=$(hostname) ## Get Hostname ##
+ETH0IP=$(ip -4 -o addr show dev eth0| awk '{split($4,a,"/");print a[1]}')  ## Get IP ETH0 ##
+CTHOST=""
+CTIP=""
+CTNETMASK=""
+CTGATEWAY=""
+
+NETHOST=""
+NETIP=""
+NETNETMASK=""
+NETGATEWAY=""
+
+CMPHOST=""
+CMPVMNAME=""
+CMPIP=""
+CMPNETMASK=""
+CMPGATEWAY=""
+
+CMP2HOST=""
+CMP2VMNAME=""
+CMP2IP=""
+CMP2NETMASK=""
+CMP2GATEWAY=""
+
+NAMESERVER1="8.8.8.8"
+NAMESERVER2="8.8.4.4"
+
+
+BR_INT="Integration bridge name"
+VNETNAME="vlan network Name"
+BR_VNET="VLAN network bridge"
+VNETMIN="VLAN ID FIRST"
+VNETMAX="VLAN ID LAST"
+IFTOVLANBR="physical interface for VLAN net Bridge"
+
+XSIP="" ## XenServer management IP Address ##
+XSINTIP="169.254.0.1" ## XenServer internal IP connection using HIMN ##
+XSUSER="" ## XenServer management user , usually root ##
+XSPASSWORD="" ## XenServer management user password ##
+
+XSBROUT1="" ## XenServer ovs_bridge for external network ##
+XSBROUT2="" ## XenServer ovs_bridge for external network ##
+
+
+XAPIBR="XAPI Bridge use to instance" ## XenServer ovs_bridge XAPI for instance internal Bridge  ##
+
+
+
+
+
+## password section ##
+ROOT_DBPASS="yourDBpassword" ## DB password of user root ##
+ADMIN_PASS="yourpassword" ## Password of user admin ##
+CINDER_DBPASS="yourDBpassword" ## Database password for the Block Storage service ##
+CINDER_PASS="yourpassword" ## Password of Block Storage service user cinder ##
+DASH_DBPASS="yourDBpassword" ## Database password for the Dashboard ##
+DEMO_PASS="yourpassword" ## Password of user demo ##
+GLANCE_DBPASS="yourDBpassword" ## Database password for Image service ##
+GLANCE_PASS="yourpassword" ## Password of Image service user glance ##
+KEYSTONE_DBPASS="yourDBpassword" ## Database password of Identity service ##
+METADATA_SECRET="yourpassword" ## Secret for the metadata proxy ##
+NEUTRON_DBPASS="yourDBpassword" ## Database password for the Networking service ##
+NEUTRON_PASS="yourpassword" ## Password of Networking service user neutron ##
+NOVA_DBPASS="yourDBpassword" ## Database password for Compute service ##
+NOVA_PASS="yourpassword" ## Password of Compute service user nova ##
+PLACEMENT_PASS="yourpassword" ## Password of the Placement service user placement ##
+RABBIT_PASS="yourDBpassword" ## Password of user guest of RabbitMQ ##
